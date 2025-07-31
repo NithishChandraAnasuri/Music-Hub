@@ -1,0 +1,805 @@
+/* * ***********************************************
+*                                               *
+*    index starts here                          *
+*                                               *
+*                                               *
+************************************************* */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: poppins;
+}
+    
+/* container here */
+
+.container{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    background-color: #3a3458;
+    position: fixed;
+
+}
+
+/* aside here  */
+
+aside{
+    height: 100vh;
+    width: 10vw;
+    background-color: #3a3458;
+    cursor: pointer;
+}
+
+/* main here */
+
+main{
+    width: 90vw;
+    height: 100vh;
+   background-color: white;
+    margin: 20px 20px 20px 20px;
+    border-radius: 20px;
+}
+
+#profile-page{
+    color: white;
+}
+/* animated  */
+
+.animate__animated:hover{
+    background-color: white;
+    color: red;
+}
+
+/* nav bar */
+
+.nav-bar{
+    width: 100%;
+    height: 10%;
+    border-radius: 20px;
+    display: flex;
+    cursor: pointer;
+    justify-content: space-between;
+   background-color: white;
+   margin: 0px 0px 0px 0px;
+    position: sticky;
+}
+
+/* main menu here */
+
+.main-menu{
+    width: 100%;
+    height: 90%;
+    display: flex;
+    border-radius: 20px;
+    background-color: white;
+}
+
+footer{
+    width: 100%;
+    height:5%;
+    position: sticky;
+    bottom: 0;
+    display: flex;
+    background-color:white;
+    border-radius: 20px;
+    justify-content: space-between;
+    align-items: center;
+}
+.controls-icns{
+    margin-left: 80px;
+}
+.now-playing {
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+.play-controls {
+    display: flex;
+    align-items: center;
+}
+.playing-bar-section{
+    width: 100%;
+    height: 5px;
+    background-color:blue;
+}
+label{
+    text-align: center;
+    align-items: center;
+    font-size: small;
+    margin: 5px 0px 5px 5px;
+}
+.now-sound-range{
+    float: inline-end;
+    margin-right: 20px;
+}
+#playing-now{
+    width: 30px;
+    height: 30px;
+    border-radius: 20px;
+    margin: 3px 0px 10px 20px;
+}
+/* left side */
+
+.left-side{
+    width: 50%;
+    height: 100%;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+    border-radius: 20px;
+   background-color: white;
+}
+
+.left-side::-webkit-scrollbar{
+    display: none;
+}
+
+/* right side */
+
+
+.right-side{
+    width: 50%;
+    height: 100%;
+    border-radius: 20px;
+    overflow: hidden;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+   background-color: white;
+    margin: 0px 10px 0px 20px;
+}
+.right-side::-webkit-scrollbar{
+    display: none;
+}
+
+/* for logo/icons/ul/nav-left and right */
+
+.logo{
+    width: 40px;
+    height: 40px;
+    margin: 20px 0px 0px 20px;
+}
+.icons{
+    margin: 20px 0px 0px 30px;
+}
+ul{
+    list-style-type: none;
+}
+.nav-left{
+    margin: 10px 0px 0px 20px;
+    
+}
+.nav-right{
+    margin: 5px 20px 0px 0px;
+}
+
+/* for images */
+
+
+.images-scroll{
+    width: 95%;
+    height: 50%;
+    background-image: url(./assets/sander.jpg);
+    border-radius: 20px;
+    margin: 0px 0px 0px 25px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.span-text{
+    font-size: x-small;
+    color: white;
+}
+
+
+.text-in-image{
+    margin: 0px 0px 0px 20px;
+}
+#explore{
+    width: 100px;
+    cursor: pointer;
+    height: 30px;
+    font-size: x-small;
+    color: white;
+    border-radius: 20px;
+    background-color: rgba(186, 190, 194, 0.68);
+}
+#explore-text{
+    margin: 5px 5px 5px 15px;
+}
+.images-info{
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.trending-info-song-list{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+}
+.trending-up{
+    width: 50px;
+    height: 50px;
+    border-radius: 20px;
+    transition: .0.5s ease-in-out;  
+}
+.trending-up:hover{
+    transform: scale(1.1);
+}
+
+.trending-songs-info{
+    display: flex;
+    align-items: center;
+}
+
+
+li{
+    list-style-type: none;
+}
+
+.songs-list{
+    display: flex;
+    flex-direction: column;
+}
+.hello-hi{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    margin: 10px 0px 0px 10px;
+
+}
+.icons-text-2{
+display: flex;
+flex-direction: column;
+}
+
+h5{
+    margin: 10px 10px 0px 10px;
+}
+.Top-artist{
+    display: flex;
+    /* align-items: center; */
+    flex-direction: column;
+    margin: 10px 0px 0px 10px;
+}
+.Top-artist-info-left{
+    display: flex;
+
+}
+.left-side-trending{
+    display: flex;
+   align-items: center;
+}
+.Top-artist-info{
+    display:flex;
+    cursor: pointer;
+    justify-content: space-between;
+
+}
+.nav-bar-top{
+    display: flex;
+    margin: 10px;
+    justify-content: space-between;
+}
+.trending-list{
+    display: flex;
+    justify-content: space-between;
+}
+.Trending{
+    margin: 10px 0px 0px 20px;
+}
+.trending-info-song-list{
+    align-items: center;
+    display: flex;
+    cursor: pointer;
+    justify-content: space-between;
+    text-align: center;
+    align-items: center;
+}
+a{
+    text-decoration: none;
+}
+
+#style
+{
+    width: 50%;
+}
+
+
+/* **************************************************************
+*                                                               *
+*    Music playing window stars here                            *
+*                                                               *
+*                                                               *
+************************************************************** */
+
+.container-2{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    background-color:  #3a3458;
+    position: fixed;
+   
+}
+
+.playing-info{
+    width: 90vw;
+    height: 95vh;
+    background-image: url(./assets/ivana-cajina-asuyh-_ZX54-unsplash.jpg);
+     background-repeat: no-repeat;
+     background-size: cover;
+     background-position: center;
+    margin: 20px 20px 20px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+.sub-playing-logo{
+    width: 300px;
+    height: 300px;
+   background-image: url(./assets/im\ good.png);
+    border-radius: 20px;
+    margin: 70px 60px 60px 400px;
+}
+.playing-bar{
+    width: 90%;
+    height: 10%;
+    background-color:#291e188d;
+    margin: 0px 0px 0px 5n/0px;
+    display: flex;
+    color: white;
+}
+.img-logo-section{
+    width: 30px;
+    height: 30px;
+    border: 20px;
+    margin: 2px 0px 0px 2px;
+
+}
+.title-tag{
+    display: flex;
+    margin: 10px 5px 5px 10px;
+}
+.extra-icons{
+    margin: 10px 0px 0px 10px;
+    justify-content: space-between;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 10px;
+}
+.controls-btn{
+    margin: 5px 0px 0px 120px;
+}
+#range{
+    justify-content: space-between;
+    display: flex;
+}
+#sound-bar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+#myrange{
+ width: 200px;
+}
+
+#volumerange{
+    width: 100px;
+}
+p{
+display: flex;
+display: inline-block;
+}
+
+
+.container3{
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+}
+.bottom-bar-section{
+    display: flex;
+    justify-content: space-between;
+   margin: 0px 20px 0px 20px;
+   align-items: center;
+}
+
+
+
+
+
+
+/* *************************************************
+*                                               *
+*                                               *
+*      profile page start here                  *
+*                                               *
+*                                               *
+**************************************************
+ */
+
+
+
+ .container3{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    background-color:  #3a3458;
+    position: fixed;
+    
+ }
+.main{
+    width:90%;
+    height: 90%;
+    margin: 20px 20px 0px 0px;
+    border-radius: 20px;
+    display: flex;
+    /* background-color: white; */
+}
+.profile-section{
+    width: 50%;
+    height: 100%;
+    display: flex;
+    padding: 10px;
+    border-radius: 20px;
+    background-color: white;
+    border: 1px solid green;
+}
+.bx-search-bar{
+    box-shadow: 2px 2px rgba(231, 205, 224, 0.973);
+    border-radius: 5px;
+    border: white;
+}
+.profile-section2{
+    width: 50%;
+    height: 100%;
+    margin: 0px 0px 0px 10px;
+    padding: 1rem;
+    background-color: #3a3458;
+    overflow-y: scroll;
+    /* border: 1px solid blue; */
+}
+.buttons{
+    /* display: flex; */
+    flex-direction: column;
+
+}
+.profile-section2::-webkit-scrollbar {
+    display: none;
+}
+.about-section{
+    width: 50%;
+    height: 100%;
+    border-radius: 20px;
+    /* border: 1px solid blue; */
+}
+
+.about-section2{
+    width: 50%;
+    height: 100%;
+    /* border-radius: 20px; */
+    /* border: 1px solid green; */
+}
+.img-about-artist{
+    width: 100%;
+    height: 50%;
+    /* border: 1px solid orange; */
+    border-radius: 20px;
+    padding: 10px;
+}
+
+.about-image{
+    height : 100%;
+    width: inherit;
+    border-radius: 20px;
+}
+.playlist-edsheeran{
+    width: 100%;
+    height: 50%;
+    overflow-y: scroll;
+    /* border: 1px solid lightcoral; */
+    border-radius: 20PX;
+    padding: 10px;
+
+}
+.playlist-edsheeran::-webkit-scrollbar {
+    display: none;
+}
+.list-play{
+    margin: 10px 0px 0px 10px;
+}
+.list-play-song{
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+.hello{
+    display: flex;
+    /* justify-content: space-between; */
+    flex-direction: column;
+
+}
+.icons-text{
+display: flex;
+}
+
+.text-arrange{
+    margin: 10px 10px 0px 0px;
+    text-align: justify;
+    word-break: break;
+    border-radius: 20px;
+}
+h3{
+    margin: 10px 0px 0px 10px;
+    text-align: center;
+}
+.top-songs-list{
+    margin: 10px 0px 0px 30px;
+    /* overflow-y: scroll; */
+   
+}
+ol{
+    list-style-type: none;
+}
+.img{
+    width: 90px;
+    height:90px;
+
+}
+.songs-list-edsheeran{
+   flex-direction: column;
+   margin: 10px 0px 0px 20px;
+}
+.list-info{
+    display: flex;
+align-items: center;
+
+}
+.text{
+    color: white;
+}
+
+.song-icons {
+    margin-left: auto;
+}
+.space{
+    color: white;
+}
+.space-1{
+    color: black;
+}
+
+
+
+/* 
+********************************************************   
+*                                                       *
+*                                                       *
+*            media query starts here                                            *
+*                                                       *
+*                                                       *
+*                                                       *
+********************************************************* */
+
+@media(min-width:1200px){
+    /* index starts here  */
+    .container{
+        width: 100vw;
+        height: 100vh;
+    }
+
+    /* music stats here */
+    .container-2{
+        width: 100vw;
+        height: 100vh;
+       overflow: scroll;
+    }
+    .controls-btn{
+        display: flex;
+    }
+    .playing-bar{
+        margin-top: 30px;
+    }
+    .title-tag
+    {
+    margin-right: 150px;
+    }
+   
+
+}
+
+@media(min-width:1024px){
+
+    /* index starts here */
+
+    .container{
+        width: 100vw;
+        height: 100vh;
+        overflow-y: scroll;
+    }
+    
+    footer{
+       height: 10%;
+    }
+   .controls-icns{
+    display: block;
+   }
+
+
+    /* music starts here  */
+    .container-2{
+        width: 100vw;
+        height: 100vh;
+        overflow-y: scroll;
+    }
+    .controls-btn{
+        display: flex;
+    }
+    .playing-bar{
+        width: 100%;
+    }
+    /* artist profile */
+    .container3{
+        width: 100vw;
+        height: 100vh;
+        overflow-y: scroll;
+    }
+}
+ @media(min-width:768px){
+     /* for index */
+     .container{
+        width: 100vw;
+        height: 100vh;
+        overflow-y: scroll;
+     }
+     #controls{
+        width: 100%;
+        display: flex;
+     }
+     #style{
+        width: 30%;
+     }
+     footer{
+        height: 10%;
+     } 
+    
+    /* for music */
+    .container-2{
+        width: 100vw;
+        height: 100vh;
+        overflow-y: scroll;
+    }
+    .playing-bar{
+        width: 100%;
+    }
+    #hearticon{
+        display: none;
+    }
+    #uploadicon{
+        display: none;
+    }
+    #plus{
+        display: none;
+    }
+    .extra-icons{
+        width: 50%;
+    }
+    #npp{
+        display: flex;
+        margin-left: -30px;
+    }
+    .title-tag{
+        margin-right: 40px;
+    }
+    #myrange{
+        width: auto;
+    }
+    /* #volumerange{
+        max-width: 50%;
+        margin-left: -30px;
+    } */
+
+    /* for artist profile */
+    .container3{
+        width: 100vw;
+        height: 100vh;
+        overflow-y: scroll;
+    }
+    .text-arrange{
+        word-break: break;
+        font-size: small;
+    }
+    .playlist-edsheeran{
+        width: 100%;
+        font-size: small;
+        overflow-y: scroll;
+        scroll-behavior: smooth;
+    }
+   
+}
+
+@media (min-width:480px){
+    /* for index */
+    .container{
+        width: 100vw;
+        height: 100vh;
+        overflow-y: scroll;
+    }
+    .bx-search-bar{
+        display: none;
+    }
+    .right-side{
+        font-size: small;
+        display: flex;
+        flex-direction: column;
+    }
+    .images-scroll{
+        width: 100%;
+    }
+    .trending-list{
+        width: auto;
+        font-size: small;
+    }
+     footer{
+        height: 10%;
+     }
+    #volumerange{
+        width: 60%;
+    }
+    #controls{
+        font-size: smaller;
+        display: flex;
+        margin-left: -10px;
+    }
+    .container-2{
+        width: 100vw;
+        height: 100vh;
+        overflow-y: scroll;
+    }
+    .sub-playing-logo
+    {
+        width: 100%;
+        height: 100%;
+        background-repeat: no-repeat;
+        background-position: center;
+        margin: auto;
+    }
+    #npp{
+        display: flex;
+        font-size: smaller;
+        margin-left: -60px;
+    }
+    .extra-icons{
+        font-size: x-small;
+    }
+    .title-tag{
+        display: none;
+    }
+   .playing-bar{
+    width: 100vw;
+   }
+   .text-in-image{
+    font-size: xx-small;
+   }
+   .trending-info-song-list{
+    font-size: xx-small;
+   }
+
+   /* for artist */
+   .container3{
+    width: 100vw;
+    height: 100vh;
+    overflow: scroll;
+   }
+   .text-arrange{
+    font-size: xx-small;
+   }
+   .profile-section{
+    margin: 20px
+   }
+}

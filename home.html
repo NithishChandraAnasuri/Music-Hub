@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Music Hub</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+    />
+    <style>
+      :root {
+        --background-color: #f0f2f5;
+        --surface-color: #ffffff;
+        --primary-text-color: #0d1117;
+        --secondary-text-color: #6e7681;
+        --border-color: #d0d7de;
+        --accent-color: #2f363d;
+        --accent-color-light: #4b5259;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: var(--background-color);
+        color: var(--primary-text-color);
+        overflow: hidden;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .app-container {
+        width: 100%;
+        height: 100%;
+        max-width: 1400px;
+        max-height: 900px;
+        background-color: var(--surface-color);
+        border-radius: 30px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+        display: grid;
+        grid-template-columns: 90px 1fr 350px;
+        padding: 1.5rem;
+        gap: 1.5rem;
+      }
+
+      /* --- Sidebar Navigation --- */
+      .sidebar {
+        background-color: var(--surface-color);
+        padding: 1.5rem 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border-radius: 20px;
+        box-shadow: 0 5px 20px rgba(18, 18, 18, 0.297);
+        z-index: 10;
+      }
+
+      .sidebar .logo {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 3rem;
+        color: var(--accent-color);
+      }
+
+      .sidebar .nav-links {
+        list-style: none;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .sidebar .nav-links a {
+        color: var(--secondary-text-color);
+        text-decoration: none;
+        font-size: 1.4rem;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 15px;
+        transition: all 0.3s ease;
+      }
+
+      .sidebar .nav-links a.active,
+      .sidebar .nav-links a:hover {
+        background-color: var(--accent-color);
+        color: var(--surface-color);
+      }
+
+      .sidebar .profile {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        overflow: hidden;
+      }
+
+      .sidebar .profile img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      /* --- Main Content --- */
+      .main-content {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        overflow: hidden;
+      }
+
+      .live-view {
+        height: 45%;
+        border-radius: 20px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .live-view img {
+        width: 100%;
+        height: 200%;
+        object-fit: cover;
+      }
+
+      .live-view-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.4), transparent);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 1.5rem;
+        color: white;
+      }
+
+      .live-view-overlay h2 {
+        font-size: 2rem;
+        font-weight: 600;
+      }
+
+      .song-list-container {
+        flex-grow: 1;
+        background: var(--surface-color);
+        border-radius: 20px;
+        padding: 1.5rem;
+        overflow-y: auto;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+      }
+
+      .song-list-container h3 {
+        margin-bottom: 1rem;
+        font-size: 1.3rem;
+      }
+
+      .song-item {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem;
+        border-radius: 15px;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+      }
+
+      .song-item:hover,
+      .song-item.playing {
+        background-color: var(--background-color);
+      }
+
+      .song-item .artwork {
+        width: 45px;
+        height: 45px;
+        border-radius: 10px;
+        margin-right: 1rem;
+        object-fit: cover;
+      }
+
+      .song-item .info {
+        flex-grow: 1;
+      }
+
+      .song-item .title {
+        font-weight: 500;
+      }
+
+      .song-item .artist {
+        font-size: 0.9rem;
+        color: var(--secondary-text-color);
+      }
+
+      .song-item .duration {
+        color: var(--secondary-text-color);
+      }
+
+      /* --- Right Panel --- */
+      .right-panel {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .panel-card {
+        background-color: var(--surface-color);
+        border-radius: 20px;
+        padding: 1.5rem;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+      }
+
+      .panel-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+
+      .panel-header h3 {
+        font-size: 1.3rem;
+      }
+
+      .panel-header .icon-button {
+        background: none;
+        border: none;
+        font-size: 1rem;
+        color: var(--secondary-text-color);
+      }
+
+      .playlist-list .playlist-item {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem 0;
+        cursor: pointer;
+      }
+
+      .playlist-item .icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        background-color: var(--background-color);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 1rem;
+        color: var(--accent-color);
+      }
+
+      .playlist-item .info {
+        flex-grow: 1;
+      }
+
+      .playlist-item .arrow {
+        color: var(--secondary-text-color);
+      }
+
+      .player-card {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+      }
+
+      .player-card .circular-progress {
+        position: relative;
+        width: 180px;
+        height: 180px;
+      }
+
+      .player-card .circular-progress svg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        transform: rotate(-90deg);
+      }
+
+      .player-card .progress-bg {
+        stroke: var(--background-color);
+      }
+
+      .player-card .progress-bar {
+        stroke: var(--accent-color);
+        stroke-dasharray: 472; /* 2 * pi * 75 */
+        stroke-dashoffset: 472;
+        transition: stroke-dashoffset 0.1s linear;
+      }
+
+      .player-card .album-art-container {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .player-card .album-art-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .player-card .song-info {
+        text-align: center;
+      }
+
+      .player-card #player-song-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+      }
+
+      .player-card #player-song-artist {
+        color: var(--secondary-text-color);
+      }
+
+      .player-controls {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .player-controls button {
+        background: none;
+        border: none;
+        color: var(--secondary-text-color);
+        font-size: 1.1rem;
+        cursor: pointer;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        transition: all 0.2s ease;
+      }
+
+      .player-controls button:hover {
+        color: var(--accent-color);
+      }
+
+      #play-pause-btn {
+        background-color: var(--accent-color);
+        color: var(--surface-color);
+        font-size: 1.4rem;
+        width: 60px;
+        height: 60px;
+      }
+
+      #play-pause-btn:hover {
+        background-color: var(--accent-color-light);
+      }
+
+      /* --- Media Queries for Responsive Design --- */
+
+     /* For Tablets */
+        @media (max-width: 1024px) {
+            .app-container {
+                grid-template-columns: 80px 1fr;
+                gap: 1rem;
+                padding: 1rem;
+            }
+            .right-panel {
+                display: none;
+            }
+            .live-view-overlay h2 {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* For Mobile Phones */
+        @media (max-width: 768px) {
+            body {
+                overflow: auto;
+            }
+            .app-container {
+                display: block;
+                border-radius: 0;
+                padding: 1rem 1rem 70px 1rem; /* Added top/side padding */
+                max-height: none;
+                height: auto;
+            }
+            .sidebar {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 65px;
+                flex-direction: row;
+                justify-content: space-between; /* Adjusted for better spacing */
+                align-items: center;
+                border-radius: 0;
+                padding: 0 1rem;
+                box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+                z-index: 1000;
+            }
+            .sidebar .logo {
+                display: none;
+            }
+            .sidebar .profile {
+                display: block; /* Make profile visible */
+                width: 40px;
+                height: 40px;
+            }
+            .sidebar .nav-links {
+                flex-direction: row;
+                width: auto;
+                justify-content: center;
+                gap: 1rem;
+            }
+            .main-content {
+                padding: 0;
+                overflow: visible;
+            }
+            .right-panel {
+                padding: 1rem 0 0 0;
+                display: flex;
+            }
+            .playlist-card {
+                display: none;
+            }
+            .player-card {
+                width: 100%;
+            }
+            .live-view {
+                height: 250px;
+            }
+        }
+        
+        /* For Small Mobile Phones */
+        @media (max-width: 480px) {
+            .live-view-overlay h2 {
+                font-size: 1.5rem;
+            }
+            .player-card .circular-progress {
+                width: 150px;
+                height: 150px;
+            }
+            .player-card .album-art-container {
+                width: 120px;
+                height: 120px;
+            }
+             .player-card #player-song-title {
+                font-size: 1rem;
+            }
+            .sidebar .nav-links a {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+  </head>
+  <body>
+    <div class="app-container">
+      <aside class="sidebar">
+        <div class="logo"><i class="fa-solid fa-compact-disc"></i></div>
+        <ul class="nav-links">
+          <li>
+            <a href="home.html" class="nav-link active"><i class="fas fa-home"></i></a>
+          </li>
+          <li>
+            <a href="music.html" class="nav-link"
+              ><i class="fas fa-music"></i
+            ></a>
+          </li>
+          <li>
+            <a href="users.html" class="nav-link"
+              ><i class="fas fa-users"></i
+            ></a>
+          </li>
+          <li>
+            <a href="heart.html" class="nav-link"
+              ><i class="far fa-heart"></i
+            ></a>
+          </li>
+          <!-- <li>
+            <a href="#" class="nav-link"
+              ><i class="fas fa-cog"></i
+            ></a>
+          </li> -->
+        </ul>
+        <div class="profile">
+         <a href="profile.html"><img
+            src="./assets/profile-logo.jpg"
+            alt="User Profile"
+          /></a>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <div class="live-view">
+          <img
+            src="https://i.scdn.co/image/ab67616d0000b273b46f25b0781a825636db6559"
+            alt="Live View"
+            id="live-artwork"
+          />
+          <div class="live-view-overlay">
+            <h2>Now Playing</h2>
+            <p>Listen to your favorite tracks</p>
+          </div>
+        </div>
+        <div class="song-list-container">
+          <h3>Tollywood Hits</h3>
+          <div id="song-list">
+            <div class="song-item" data-index="0">
+              <img src="./assets/ramulo.jpg" alt="Amma" class="artwork" />
+              <div class="info">
+                <div class="title">Amma</div>
+                <div class="artist">Vishal Mishra</div>
+              </div>
+              <div class="duration">3:50</div>
+            </div>
+
+            <div class="song-item" data-index="1">
+              <img src="./assets/Jailer.jpg" alt="Hukum" class="artwork" />
+              <div class="info">
+                <div class="title">Hukum</div>
+                <div class="artist">Anirudh Ravichander</div>
+              </div>
+              <div class="duration">3:25</div>
+            </div>
+
+            <div class="song-item" data-index="2">
+              <img
+                src="./assets/Mad.jpg"
+                alt="Nuvvu Navvukuntu"
+                class="artwork"
+              />
+              <div class="info">
+                <div class="title">Nuvvu Navvukuntu</div>
+                <div class="artist">Karthik</div>
+              </div>
+              <div class="duration">4:10</div>
+            </div>
+
+            <div class="song-item" data-index="3">
+              <img
+                src="./assets/kurchi.jpg"
+                alt="Kurchi Madathapetti"
+                class="artwork"
+              />
+              <div class="info">
+                <div class="title">Kurchi Madathapetti</div>
+                <div class="artist">Thaman S, Sri Krishna</div>
+              </div>
+              <div class="duration">3:48</div>
+            </div>
+
+            <div class="song-item" data-index="4">
+              <img
+                src="./assets/Vijay Deverakonda (1).jpg"
+                alt="Anna Antene"
+                class="artwork"
+              />
+              <div class="info">
+                <div class="title">Anna Antene</div>
+                <div class="artist">Anirudh Ravichander</div>
+              </div>
+              <div class="duration">3:32</div>
+            </div>
+
+            <div class="song-item" data-index="5">
+              <img
+                src="./assets/Coolie - Superstar Rajinikanth.jpg"
+                alt="Chikitu"
+                class="artwork"
+              />
+              <div class="info">
+                <div class="title">Chikitu</div>
+                <div class="artist">T Rajendar, Anirudh Ravichander, Arivu</div>
+              </div>
+              <div class="duration">3:27</div>
+            </div>
+
+            <div class="song-item" data-index="6">
+              <img src="./assets/Guntur Karaam re-release special(wallpapers).jpg" alt="Dum Masala" class="artwork" />
+              <div class="info">
+                <div class="title">Dum Masala</div>
+                <div class="artist">Sanjith Hegde, S S Thaman</div>
+              </div>
+              <div class="duration">3:59</div>
+            </div>
+
+            <div class="song-item" data-index="7">
+              <img
+                src="./assets/Vijay Deverakonda.jpg"
+                alt="Hridayam Lopala"
+                class="artwork"
+              />
+              <div class="info">
+                <div class="title">Hridayam Lopala</div>
+                <div class="artist">Anirudh Ravichander, Anumita Nadesan</div>
+              </div>
+              <div class="duration">4:04</div>
+            </div>
+
+            <div class="song-item" data-index="8">
+              <img
+                src="./assets/Guntur Karam.jpg"
+                alt="Mawaa Enthaina"
+                class="artwork"
+              />
+              <div class="info">
+                <div class="title">Mawaa Enthaina</div>
+                <div class="artist">Sri Krishna, Ramachari</div>
+              </div>
+              <div class="duration">3:40</div>
+            </div>
+
+            <div class="song-item" data-index="9">
+              <img
+                src="./assets/h my babay.jpg"
+                alt="Oh My Baby"
+                class="artwork"
+              />
+              <div class="info">
+                <div class="title">Oh My Baby</div>
+                <div class="artist">Shilpa Rao</div>
+              </div>
+              <div class="duration">4:00</div>
+            </div>
+
+            <div class="song-item" data-index="10">
+              <img
+                src="./assets/Vijay Deverakonda.jpg"
+                alt="Ragile Ragile"
+                class="artwork"
+              />
+              <div class="info">
+                <div class="title">Ragile Ragile</div>
+                <div class="artist">Siddarth Basrur</div>
+              </div>
+              <div class="duration">3:36</div>
+            </div>
+
+            <div class="song-item" data-index="11">
+              <img src="./assets/sooseki.jpg" alt="Sooseki" class="artwork" />
+              <div class="info">
+                <div class="title">Sooseki</div>
+                <div class="artist">Shreya Ghoshal</div>
+              </div>
+              <div class="duration">3:45</div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <aside class="right-panel">
+        <div class="panel-card playlist-card">
+          <div class="panel-header">
+            <h3>Playlists</h3>
+            <button class="icon-button"><i class="fas fa-plus"></i></button>
+          </div>
+          <div class="playlist-list">
+            <div class="playlist-item">
+              <div class="icon"><i class="fas fa-guitar"></i></div>
+              <div class="info">
+                <div class="title">Tollywood Hits</div>
+                <div class="artist">45 songs</div>
+              </div>
+              <div class="arrow"><i class="fas fa-chevron-right"></i></div>
+            </div>
+            <div class="playlist-item">
+              <div class="icon"><i class="fas fa-headphones"></i></div>
+              <div class="info">
+                <div class="title">Telugu Melody</div>
+                <div class="artist">90 songs</div>
+              </div>
+              <div class="arrow"><i class="fas fa-chevron-right"></i></div>
+            </div>
+          </div>
+        </div>
+        <div class="panel-card player-card">
+          <h3 style="align-self: flex-start">Speakers</h3>
+          <div class="circular-progress">
+            <svg width="180" height="180" viewBox="0 0 180 180">
+              <circle
+                class="progress-bg"
+                cx="90"
+                cy="90"
+                r="75"
+                stroke-width="15"
+              ></circle>
+              <circle
+                class="progress-bar"
+                id="progress-bar"
+                cx="90"
+                cy="90"
+                r="75"
+                stroke-width="15"
+              ></circle>
+            </svg>
+            <div class="album-art-container">
+              <img
+                src="https://placehold.co/150x150/f0f2f5/6e7681?text=Music"
+                alt="Album Art"
+                id="player-artwork"
+              />
+            </div>
+          </div>
+          <div class="song-info">
+            <h4 id="player-song-title">Select a Song</h4>
+            <p id="player-song-artist">Artist</p>
+          </div>
+          <div class="player-controls">
+            <button id="prev-btn"><i class="fas fa-backward-step"></i></button>
+            <button id="play-pause-btn"><i class="fas fa-play"></i></button>
+            <button id="next-btn"><i class="fas fa-forward-step"></i></button>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <audio id="audio-player"></audio>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const state = {
+          songs: [
+            {
+              title: "Amma",
+              artist: "Vishal Mishra",
+              url: "./assets/Amma.mp3",
+            },
+            {
+              title: "Hukum",
+              artist: "Anirudh Ravichander",
+              url: "./assets/Hukum.mp3",
+            },
+            {
+              title: "Nuvvu Navvukuntu",
+              artist: "Karthik",
+              url: "./assets/Nuvvu Navvukuntu.mp3",
+            },
+            {
+              title: "Kurchi Madathapetti",
+              artist: "Thaman S, Sri Krishna",
+              url: "./assets/Kurchi Madathapetti.mp3",
+            },
+            {
+              title: "Anna Antene",
+              artist: "Anirudh Ravichander",
+              url: "./assets/Anna Antene.mp3",
+            },
+            {
+              title: "Chikitu",
+              artist: "T Rajendar, Anirudh Ravichander, Arivu",
+              url: "./assets/Chikitu.mp3",
+            },
+            {
+              title: "Dum Masala",
+              artist: "Sanjith Hegde, S S Thaman",
+              url: "./assets/Dum Masala.mp3",
+            },
+            {
+              title: "Hridayam Lopala",
+              artist: "Anirudh Ravichander, Anumita Nadesan",
+              url: "./assets/Hridayam Lopala.mp3",
+            },
+            {
+              title: "Mawaa Enthaina",
+              artist: "Sri Krishna, Ramachari",
+              url: "./assets/Mawaa Enthaina.mp3",
+            },
+            {
+              title: "Oh My Baby",
+              artist: "Shilpa Rao",
+              url: "./assets/Oh My Baby.mp3",
+            },
+            {
+              title: "Ragile Ragile",
+              artist: "Siddarth Basrur",
+              url: "./assets/Ragile Ragile.mp3",
+            },
+            {
+              title: "Sooseki",
+              artist: "Shreya Ghoshal",
+              url: "./assets/Sooseki.mp3",
+            },
+          ],
+          currentSongIndex: 0,
+          isPlaying: false,
+        };
+
+        const audioPlayer = document.getElementById("audio-player");
+        const songList = document.getElementById("song-list");
+        const playPauseBtn = document.getElementById("play-pause-btn");
+        const nextBtn = document.getElementById("next-btn");
+        const prevBtn = document.getElementById("prev-btn");
+        const progressBar = document.getElementById("progress-bar");
+        const playerArtwork = document.getElementById("player-artwork");
+        const liveArtwork = document.getElementById("live-artwork");
+        const playerSongTitle = document.getElementById("player-song-title");
+        const playerSongArtist = document.getElementById("player-song-artist");
+
+        const radius = progressBar.r.baseVal.value;
+        const circumference = 2 * Math.PI * radius;
+        progressBar.style.strokeDasharray = circumference;
+        progressBar.style.strokeDashoffset = circumference;
+
+        function updatePlayingHighlight() {
+          document.querySelectorAll(".song-item").forEach((item, index) => {
+            item.classList.toggle("playing", index === state.currentSongIndex);
+          });
+        }
+
+        function loadSong(songIndex, artworkSrc) {
+          const song = state.songs[songIndex];
+          state.currentSongIndex = songIndex;
+          audioPlayer.src = song.url;
+
+          playerArtwork.src = artworkSrc;
+          liveArtwork.src = artworkSrc;
+
+          playerSongTitle.textContent = song.title;
+          playerSongArtist.textContent = song.artist;
+          updatePlayingHighlight();
+        }
+
+        function playSong() {
+          state.isPlaying = true;
+          audioPlayer.play().catch((e) => console.error("Playback failed:", e));
+          playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+          updatePlayingHighlight();
+        }
+
+        function pauseSong() {
+          state.isPlaying = false;
+          audioPlayer.pause();
+          playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+        }
+
+        function togglePlayPause() {
+          if (state.isPlaying) {
+            pauseSong();
+          } else {
+            playSong();
+          }
+        }
+
+        function nextSong() {
+          const newIndex = (state.currentSongIndex + 1) % state.songs.length;
+          const nextSongItem = songList.querySelector(
+            `.song-item[data-index='${newIndex}']`
+          );
+          if (nextSongItem) {
+            const artworkSrc = nextSongItem.querySelector(".artwork").src;
+            loadSong(newIndex, artworkSrc);
+            if (state.isPlaying) playSong();
+          }
+        }
+
+        function prevSong() {
+          const newIndex =
+            (state.currentSongIndex - 1 + state.songs.length) %
+            state.songs.length;
+          const prevSongItem = songList.querySelector(
+            `.song-item[data-index='${newIndex}']`
+          );
+          if (prevSongItem) {
+            const artworkSrc = prevSongItem.querySelector(".artwork").src;
+            loadSong(newIndex, artworkSrc);
+            if (state.isPlaying) playSong();
+          }
+        }
+
+        function updateProgress(e) {
+          const { duration, currentTime } = e.srcElement;
+          if (duration) {
+            const progressPercent = currentTime / duration;
+            const offset = circumference - progressPercent * circumference;
+            progressBar.style.strokeDashoffset = offset;
+          }
+        }
+
+        playPauseBtn.addEventListener("click", togglePlayPause);
+        nextBtn.addEventListener("click", nextSong);
+        prevBtn.addEventListener("click", prevSong);
+        audioPlayer.addEventListener("timeupdate", updateProgress);
+        audioPlayer.addEventListener("ended", nextSong);
+
+        songList.addEventListener("click", (e) => {
+          const songItem = e.target.closest(".song-item");
+          if (songItem) {
+            const songIndex = parseInt(songItem.dataset.index);
+            const artworkSrc = songItem.querySelector(".artwork").src;
+            loadSong(songIndex, artworkSrc);
+            playSong();
+          }
+        });
+
+        function init() {
+          const firstSongItem = songList.querySelector(
+            '.song-item[data-index="0"]'
+          );
+          if (firstSongItem) {
+            const artworkSrc = firstSongItem.querySelector(".artwork").src;
+            loadSong(0, artworkSrc);
+          }
+        }
+
+        init();
+      });
+    </script>
+  </body>
+</html>

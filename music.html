@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Explore Music - Music Hub</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+    />
+    <style>
+      :root {
+        --background-color: #f0f2f5;
+        --surface-color: #ffffff;
+        --primary-text-color: #0d1117;
+        --secondary-text-color: #6e7681;
+        --border-color: #d0d7de;
+        --accent-color: #2f363d;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: var(--background-color);
+        color: var(--primary-text-color);
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .app-container {
+        width: 100%;
+        height: 100%;
+        max-width: 1400px;
+        max-height: 900px;
+        background-color: var(--surface-color);
+        border-radius: 30px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+        display: grid;
+        grid-template-columns: 90px 1fr;
+        padding: 1.5rem;
+        gap: 1.5rem;
+      }
+
+      /* --- Sidebar Navigation --- */
+      .sidebar {
+        background-color: var(--surface-color);
+        padding: 1.5rem 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border-radius: 20px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        z-index: 10;
+      }
+
+      .sidebar .logo {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 3rem;
+        color: var(--accent-color);
+      }
+
+      .sidebar .nav-links {
+        list-style: none;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .sidebar .nav-links a {
+        color: var(--secondary-text-color);
+        text-decoration: none;
+        font-size: 1.4rem;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 15px;
+        transition: all 0.3s ease;
+      }
+
+      .sidebar .nav-links a.active,
+      .sidebar .nav-links a:hover {
+        background-color: var(--accent-color);
+        color: var(--surface-color);
+      }
+
+      .sidebar .profile {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        overflow: hidden;
+      }
+
+      .sidebar .profile img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      /* --- Music Content --- */
+      .music-content {
+        padding: 1rem;
+        overflow-y: auto;
+      }
+
+      .music-content::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      .music-content::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      .music-content::-webkit-scrollbar-thumb {
+        background: #ccc;
+        border-radius: 4px;
+      }
+
+      .page-header {
+        height: 200px;
+        border-radius: 20px;
+        overflow: hidden;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      .page-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url("https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=1200&q=80")
+          center center/cover;
+        filter: brightness(0.5);
+        z-index: 1;
+      }
+
+      .page-header h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        z-index: 2;
+      }
+
+      .page-header p {
+        font-size: 1.1rem;
+        z-index: 2;
+      }
+
+      .music-category {
+        margin-bottom: 2.5rem;
+      }
+
+      .category-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+      }
+
+      .song-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .song-card {
+        background-color: var(--surface-color);
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .song-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .song-card .artwork {
+        width: 100%;
+        height: 160px;
+        object-fit: cover;
+      }
+
+      .song-card .info {
+        padding: 1rem;
+      }
+
+      .song-card .title {
+        font-weight: 600;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .song-card .artist {
+        font-size: 0.9rem;
+        color: var(--secondary-text-color);
+      }
+
+      /* --- Media Queries for Responsive Design --- */
+
+     /* For Tablets */
+        @media (max-width: 1024px) {
+            .app-container {
+                grid-template-columns: 80px 1fr;
+                padding: 1rem;
+                gap: 1rem;
+            }
+            .page-header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        /* For Mobile Phones */
+        @media (max-width: 768px) {
+            body {
+                display: block; /* Override flexbox for normal document flow */
+                height: auto;   /* Allow height to be determined by content */
+                overflow: auto;
+            }
+            .app-container {
+                display: block;
+                border-radius: 0;
+                padding: 1rem 1rem 70px 1rem; /* Added top/side padding */
+                max-height: none;
+                height: auto;
+                min-height: 100vh;
+            }
+            .sidebar {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 65px;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                border-radius: 0;
+                padding: 0 1rem;
+                box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+                z-index: 1000;
+            }
+            .sidebar .logo {
+                display: none;
+            }
+            .sidebar .profile {
+                display: block;
+                width: 40px;
+                height: 40px;
+            }
+            .sidebar .nav-links {
+                flex-direction: row;
+                width: auto;
+                justify-content: center;
+                gap: 1rem;
+            }
+            .music-content {
+                padding: 1rem 0;
+            }
+            .song-grid {
+                gap: 1rem;
+            }
+        }
+        
+        /* For Small Mobile Phones */
+        @media (max-width: 480px) {
+            .page-header {
+                height: 150px;
+            }
+            .page-header h1 {
+                font-size: 1.8rem;
+            }
+            .song-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .category-title {
+                font-size: 1.3rem;
+            }
+            .sidebar .nav-links a {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+  </head>
+  <body>
+    <div class="app-container">
+      <aside class="sidebar">
+        <div class="logo"><i class="fa-solid fa-compact-disc"></i></div>
+        <ul class="nav-links">
+          <li>
+            <a href="home.html" class="nav-link"><i class="fas fa-home"></i></a>
+          </li>
+          <li>
+            <a href="music.html" class="nav-link active"
+              ><i class="fas fa-music"></i
+            ></a>
+          </li>
+          <li>
+            <a href="users.html" class="nav-link"
+              ><i class="fas fa-users"></i
+            ></a>
+          </li>
+          <li>
+            <a href="heart.html" class="nav-link"
+              ><i class="far fa-heart"></i
+            ></a>
+          </li>
+          <!-- <li><a href="#" class="nav-link"><i class="fas fa-cog"></i></a></li> -->
+        </ul>
+        <div class="profile">
+          <a href="profile.html"
+            ><img src="./assets/profile-logo.jpg" alt="User Profile"
+          /></a>
+        </div>
+      </aside>
+
+      <main class="music-content">
+        <header class="page-header">
+          <h1>Explore Music</h1>
+          <p>Discover new tracks, artists, and playlists</p>
+        </header>
+
+        <section class="music-category">
+          <h2 class="category-title">Trending Now</h2>
+          <div class="song-grid" id="trending-grid">
+            <div class="song-card">
+              <img
+                src="./assets/kurchi.jpg"
+                alt="Kurchi Madathapetti"
+                class="artwork"
+              />
+              <div class="info">
+                <div class="title">Kurchi Madathapetti</div>
+                <div class="artist">Thaman S, Sri Krishna</div>
+              </div>
+            </div>
+            <div class="song-card">
+              <img src="./assets/Jailer.jpg" alt="Hukum" class="artwork" />
+              <div class="info">
+                <div class="title">Hukum</div>
+                <div class="artist">Anirudh Ravichander</div>
+              </div>
+            </div>
+            <div class="song-card">
+              <img src="./assets/sooseki.jpg" alt="Sooseki" class="artwork" />
+              <div class="info">
+                <div class="title">Sooseki</div>
+                <div class="artist">Shreya Ghoshal</div>
+              </div>
+            </div>
+            <div class="song-card">
+              <img
+                src="./assets/Mad.jpg"
+                alt="Nuvvu Navvukuntu"
+                class="artwork"
+              />
+              <div class="info">
+                <div class="title">Nuvvu Navvukuntu</div>
+                <div class="artist">Karthik</div>
+              </div>
+            </div>
+            <div class="song-card">
+              <img
+                src="./assets/samaja.jpg"
+                alt="Samajavaragamana"
+                class="artwork"
+              />
+              <div class="info">
+                <div class="title">Samajavaragamana</div>
+                <div class="artist">Sid Sriram</div>
+              </div>
+            </div>
+            <div class="song-card">
+              <img
+                src="./assets/ramulo.jpg"
+                alt="Ramuloo Ramulaa"
+                class="artwork"
+              />
+              <div class="info">
+                <div class="title">Ramuloo Ramulaa</div>
+                <div class="artist">Anurag Kulkarni, Mangli</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="music-category">
+          <h2 class="category-title">New Releases</h2>
+          <div class="song-grid" id="new-releases-grid">
+            <div class="song-card">
+              <img
+                src="./assets/pushpa pushpa.jpg"
+                alt="Pushpa Pushpa"
+                class="artwork"
+              />
+              <div class="info">
+                <div class="title">Pushpa Pushpa</div>
+                <div class="artist">Devi Sri Prasad</div>
+              </div>
+            </div>
+            <div class="song-card">
+              <img src="./assets/fear.jpg" alt="Fear" class="artwork" />
+              <div class="info">
+                <div class="title">Fear</div>
+                <div class="artist">Anirudh Ravichander</div>
+              </div>
+            </div>
+            <div class="song-card">
+              <img
+                src="./assets/family.jpg"
+                alt="Kalyani Vaccha Vacchaa"
+                class="artwork"
+              />
+              <div class="info">
+                <div class="title">Kalyani Vaccha Vacchaa</div>
+                <div class="artist">Mangli, Karthik</div>
+              </div>
+            </div>
+            <div class="song-card">
+              <img
+                src="./assets/h my babay.jpg"
+                alt="Oh My Baby"
+                class="artwork"
+              />
+              <div class="info">
+                <div class="title">Oh My Baby</div>
+                <div class="artist">Shilpa Rao</div>
+              </div>
+            </div>
+            <div class="song-card">
+              <img src="./assets/chitti.jpg" alt="Chitti" class="artwork" />
+              <div class="info">
+                <div class="title">Chitti</div>
+                <div class="artist">Ram Miriyala</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="music-category">
+          <h2 class="category-title">Popular Playlists</h2>
+          <div class="song-grid" id="popular-playlists-grid">
+            <div class="song-card">
+              <img
+                src="./assets/Tollywood.jpg"
+                alt="Tollywood Pearls"
+                class="artwork"
+              />
+              <div class="info">
+                <div class="title">Tollywood Pearls</div>
+                <div class="artist">Top Telugu hits</div>
+              </div>
+            </div>
+            <div class="song-card">
+              <img
+                src="./assets/romance.jpg"
+                alt="Telugu Romance"
+                class="artwork"
+              />
+              <div class="info">
+                <div class="title">Telugu Romance</div>
+                <div class="artist">Love & Melody</div>
+              </div>
+            </div>
+            <div class="song-card">
+              <img
+                src="./assets/TFI BANISA page.jpg"
+                alt="Massive Tollywood"
+                class="artwork"
+              />
+              <div class="info">
+                <div class="title">Massive Tollywood</div>
+                <div class="artist">High energy tracks</div>
+              </div>
+            </div>
+            <div class="song-card">
+              <img
+                src="./assets/90's.jpg"
+                alt="90s Telugu Hits"
+                class="artwork"
+              />
+              <div class="info">
+                <div class="title">90s Telugu Hits</div>
+                <div class="artist">Golden Era</div>
+              </div>
+            </div>
+            <div class="song-card">
+              <img
+                src="./assets/All.jpg"
+                alt="Hot Hits Telugu"
+                class="artwork"
+              />
+              <div class="info">
+                <div class="title">Hot Hits Telugu</div>
+                <div class="artist">The biggest songs</div>
+              </div>
+            </div>
+            <div class="song-card">
+              <img
+                src="./assets/Tolly's Fairytale love stories.jpg"
+                alt="All Time Telugu Hits"
+                class="artwork"
+              />
+              <div class="info">
+                <div class="title">All Time Telugu Hits</div>
+                <div class="artist">Evergreen classics</div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      // No JavaScript is needed to populate the grids anymore
+      // as the content is now static in the HTML.
+    </script>
+  </body>
+</html>

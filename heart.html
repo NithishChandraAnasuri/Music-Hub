@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favorites - Music Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <style>
+        :root {
+            --background-color: #f0f2f5;
+            --surface-color: #ffffff;
+            --primary-text-color: #0d1117;
+            --secondary-text-color: #6e7681;
+            --border-color: #d0d7de;
+            --accent-color: #2f363d;
+            --love-color: #e91e63;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--primary-text-color);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .app-container {
+            width: 100%;
+            height: 100%;
+            max-width: 1400px;
+            max-height: 900px;
+            background-color: var(--surface-color);
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            display: grid;
+            grid-template-columns: 90px 1fr;
+            padding: 1.5rem;
+            gap: 1.5rem;
+        }
+
+        /* --- Sidebar Navigation --- */
+        .sidebar {
+            background-color: var(--surface-color);
+            padding: 1.5rem 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            z-index: 10;
+        }
+        
+        .sidebar .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            color: var(--accent-color);
+        }
+
+        .sidebar .nav-links {
+            list-style: none;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .sidebar .nav-links a {
+            color: var(--secondary-text-color);
+            text-decoration: none;
+            font-size: 1.4rem;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar .nav-links a.active,
+        .sidebar .nav-links a:hover {
+            background-color: var(--accent-color);
+            color: var(--surface-color);
+        }
+        
+        .sidebar .profile {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+        
+        .sidebar .profile img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* --- Favorites Content --- */
+        .favorites-content {
+            padding: 1rem;
+            overflow-y: auto;
+        }
+        
+        .favorites-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .favorites-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .favorites-content::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 4px;
+        }
+        
+        .page-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .page-header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+        }
+
+        .favorites-section {
+            margin-bottom: 3rem;
+        }
+
+        .item-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .song-card, .artist-card {
+            background-color: var(--surface-color);
+            border-radius: 15px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            position: relative;
+        }
+        
+        .song-card:hover, .artist-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+        }
+        
+        .song-card {
+             overflow: hidden;
+        }
+
+        .song-card .artwork {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+
+        .song-card .info {
+            padding: 1rem;
+        }
+
+        .song-card .title {
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .song-card .artist {
+            font-size: 0.9rem;
+            color: var(--secondary-text-color);
+        }
+        
+        .song-card .heart-icon {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.2rem;
+            color: var(--love-color);
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .artist-card {
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .artist-card .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 1rem;
+            border: 3px solid var(--background-color);
+        }
+
+        .artist-card .name {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .artist-card .heart-icon {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.2rem;
+            color: var(--love-color);
+        }
+
+        /* --- Media Queries for Responsive Design --- */
+/* For Tablets */
+        @media (max-width: 1024px) {
+            .app-container {
+                grid-template-columns: 80px 1fr;
+                padding: 1rem;
+                gap: 1rem;
+            }
+            .page-header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        /* For Mobile Phones */
+        @media (max-width: 768px) {
+            body {
+                display: block;
+                height: auto;
+                overflow: auto;
+            }
+            .app-container {
+                display: block;
+                border-radius: 0;
+                padding: 1rem 1rem 70px 1rem; /* Added top/side padding */
+                max-height: none;
+                height: auto;
+                min-height: 100vh;
+            }
+            .sidebar {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 65px;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                border-radius: 0;
+                padding: 0 1rem;
+                box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+                z-index: 1000;
+            }
+            .sidebar .logo {
+                display: none;
+            }
+            .sidebar .profile {
+                display: block;
+                width: 40px;
+                height: 40px;
+            }
+            .sidebar .nav-links {
+                flex-direction: row;
+                width: auto;
+                justify-content: center;
+                gap: 1rem;
+            }
+            .favorites-content {
+                padding: 1.5rem 0;
+            }
+            .item-grid {
+                gap: 1rem;
+            }
+        }
+        
+        /* For Small Mobile Phones */
+        @media (max-width: 480px) {
+            .page-header h1 {
+                font-size: 1.8rem;
+            }
+            .item-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .song-card .info, .artist-card {
+                padding: 0.75rem;
+            }
+            .song-card .title, .artist-card .name {
+                font-size: 0.9rem;
+            }
+             .sidebar .nav-links a {
+                font-size: 1.2rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo"><i class="fa-solid fa-compact-disc"></i></div>
+            <ul class="nav-links">
+                <li><a href="home.html" class="nav-link"><i class="fas fa-home"></i></a></li>
+                <li><a href="music.html" class="nav-link"><i class="fas fa-music"></i></a></li>
+                <li><a href="users.html" class="nav-link"><i class="fas fa-users"></i></a></li>
+                <li><a href="heart.html" class="nav-link active"><i class="fas fa-heart"></i></a></li>
+                <!-- <li><a href="#" class="nav-link"><i class="fas fa-cog"></i></a></li> -->
+            </ul>
+            <div class="profile">
+               <a href="profile.html"><img src="./assets/profile-logo.jpg" alt="User Profile"></a>
+            </div>
+        </aside>
+
+        <main class="favorites-content">
+            <section class="favorites-section">
+                <header class="page-header">
+                    <h1>Favorite Songs</h1>
+                </header>
+                <div class="item-grid">
+                    <div class="song-card">
+                        <img src="./assets/kurchi.jpg" alt="Kurchi Madathapetti" class="artwork">
+                        <div class="info">
+                            <div class="title">Kurchi Madathapetti</div>
+                            <div class="artist">Thaman S, Sri Krishna</div>
+                        </div>
+                        <i class="fas fa-heart heart-icon"></i>
+                    </div>
+                     <div class="song-card">
+                        <img src="./assets/samaja.jpg" alt="Samajavaragamana" class="artwork">
+                        <div class="info">
+                            <div class="title">Samajavaragamana</div>
+                            <div class="artist">Sid Sriram</div>
+                        </div>
+                        <i class="fas fa-heart heart-icon"></i>
+                    </div>
+                     <div class="song-card">
+                        <img src="./assets/sooseki.jpg" alt="Sooseki" class="artwork">
+                        <div class="info">
+                            <div class="title">Sooseki</div>
+                            <div class="artist">Shreya Ghoshal</div>
+                        </div>
+                        <i class="fas fa-heart heart-icon"></i>
+                    </div>
+                     <div class="song-card">
+                        <img src="./assets/chitti.jpg" alt="Chitti" class="artwork">
+                        <div class="info">
+                            <div class="title">Chitti</div>
+                            <div class="artist">Ram Miriyala</div>
+                        </div>
+                        <i class="fas fa-heart heart-icon"></i>
+                    </div>
+                    <div class="song-card">
+                        <img src="./assets/Jailer.jpg" alt="Hukum" class="artwork">
+                        <div class="info">
+                            <div class="title">Hukum</div>
+                            <div class="artist">Anirudh Ravichander</div>
+                        </div>
+                        <i class="fas fa-heart heart-icon"></i>
+                    </div>
+                    <div class="song-card">
+                        <img src="./assets/ramulo.jpg" alt="Ramuloo Ramulaa" class="artwork">
+                        <div class="info">
+                            <div class="title">Ramuloo Ramulaa</div>
+                            <div class="artist">Anurag Kulkarni, Mangli</div>
+                        </div>
+                        <i class="fas fa-heart heart-icon"></i>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="favorites-section">
+                <header class="page-header">
+                    <h1>Favorite Artists</h1>
+                </header>
+                <div class="item-grid">
+                    <div class="artist-card">
+                        <i class="fas fa-heart heart-icon"></i>
+                        <img src="./assets/anirudh.jpg" alt="Anirudh Ravichander" class="avatar">
+                        <div class="name">Anirudh R.</div>
+                    </div>
+                    <div class="artist-card">
+                        <i class="fas fa-heart heart-icon"></i>
+                        <img src="./assets/anurag.jpg" alt="Shreya Ghoshal" class="avatar">
+                        <div class="name">Anurag Kulkarni</div>
+                    </div>
+                    <div class="artist-card">
+                        <i class="fas fa-heart heart-icon"></i>
+                        <img src="./assets/taman.jpg" alt="Sid Sriram" class="avatar">
+                        <div class="name">Thaman S</div>
+                    </div>
+                    <div class="artist-card">
+                        <i class="fas fa-heart heart-icon"></i>
+                        <img src="./assets/dsp.jpg" alt="Thaman S" class="avatar">
+                        <div class="name">DSP</div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- GSAP Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            gsap.from(".song-card, .artist-card", {
+                duration: 0.8,
+                opacity: 0,
+                y: 30,
+                stagger: 0.1,
+                ease: "power3.out"
+            });
+
+            const allCards = document.querySelectorAll('.song-card, .artist-card');
+            allCards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    gsap.to(card, { scale: 1.05, duration: 0.3, ease: 'power2.out' });
+                });
+                card.addEventListener('mouseleave', () => {
+                    gsap.to(card, { scale: 1, duration: 0.3, ease: 'power2.out' });
+                });
+            });
+
+            const heartIcons = document.querySelectorAll('.heart-icon');
+            heartIcons.forEach(icon => {
+                icon.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    gsap.fromTo(icon, 
+                        { scale: 1.3 }, 
+                        { scale: 1, duration: 0.5, ease: "elastic.out(1, 0.3)" }
+                    );
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

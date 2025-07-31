@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Music Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <style>
+        :root {
+            --background-color: #f0f2f5;
+            --surface-color: #ffffff;
+            --primary-text-color: #0d1117;
+            --secondary-text-color: #6e7681;
+            --border-color: #d0d7de;
+            --accent-color: #2f363d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--primary-text-color);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .app-container {
+            width: 100%;
+            height: 100%;
+            max-width: 1400px;
+            max-height: 900px;
+            background-color: var(--surface-color);
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            display: grid;
+            grid-template-columns: 90px 1fr;
+            padding: 1.5rem;
+            gap: 1.5rem;
+        }
+
+        /* --- Sidebar Navigation --- */
+        .sidebar {
+            background-color: var(--surface-color);
+            padding: 1.5rem 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            z-index: 10;
+        }
+        
+        .sidebar .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            color: var(--accent-color);
+        }
+
+        .sidebar .nav-links {
+            list-style: none;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .sidebar .nav-links a {
+            color: var(--secondary-text-color);
+            text-decoration: none;
+            font-size: 1.4rem;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar .nav-links a.active,
+        .sidebar .nav-links a:hover {
+            background-color: var(--accent-color);
+            color: var(--surface-color);
+        }
+        
+        .sidebar .profile {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+        
+        .sidebar .profile img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* --- Profile Content --- */
+        .profile-content {
+            padding: 1rem;
+            overflow-y: auto;
+        }
+        
+        .profile-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .profile-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .profile-content::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 4px;
+        }
+        
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .profile-header .avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            flex-shrink: 0;
+        }
+
+        .profile-header .info h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        .profile-header .info .bio {
+            color: var(--secondary-text-color);
+            margin-bottom: 1rem;
+        }
+
+        .profile-header .stats {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .profile-header .stats .stat-item {
+            text-align: center;
+        }
+
+        .profile-header .stats .stat-item .count {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .profile-header .stats .stat-item .label {
+            font-size: 0.9rem;
+            color: var(--secondary-text-color);
+        }
+
+        .profile-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .item-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .item-card {
+            background-color: var(--surface-color);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .item-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+        }
+
+        .item-card .artwork {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+
+        .item-card .card-info {
+            padding: 1rem;
+        }
+
+        .item-card .title {
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .item-card .artist {
+            font-size: 0.9rem;
+            color: var(--secondary-text-color);
+        }
+        
+        /* --- Media Queries for Responsive Design --- */
+ @media (max-width: 1024px) {
+            .app-container {
+                grid-template-columns: 80px 1fr;
+                padding: 1rem;
+                gap: 1rem;
+            }
+            .profile-header .avatar {
+                width: 120px;
+                height: 120px;
+            }
+            .profile-header .info h1 {
+                font-size: 2rem;
+            }
+        }
+
+        /* For Mobile Phones */
+        @media (max-width: 768px) {
+            body {
+                display: block;
+                height: auto;
+                overflow: auto;
+            }
+            .app-container {
+                display: block;
+                border-radius: 0;
+                padding: 1rem 1rem 70px 1rem; /* Added top/side padding */
+                max-height: none;
+                height: auto;
+                min-height: 100vh;
+            }
+            .sidebar {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 65px;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                border-radius: 0;
+                padding: 0 1rem;
+                box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+                z-index: 1000;
+            }
+            .sidebar .logo {
+                display: none;
+            }
+            .sidebar .profile {
+                display: block;
+                width: 40px;
+                height: 40px;
+            }
+            .sidebar .nav-links {
+                flex-direction: row;
+                width: auto;
+                justify-content: center;
+                gap: 1rem;
+            }
+            .profile-content {
+                padding: 1.5rem 0;
+            }
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+            .profile-header .stats {
+                justify-content: center;
+            }
+            .item-grid {
+                gap: 1rem;
+            }
+        }
+        
+        /* For Small Mobile Phones */
+        @media (max-width: 480px) {
+            .profile-header .avatar {
+                width: 100px;
+                height: 100px;
+            }
+            .profile-header .info h1 {
+                font-size: 1.8rem;
+            }
+            .item-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .section-title {
+                font-size: 1.3rem;
+            }
+            .sidebar .nav-links a {
+                font-size: 1.2rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo"><i class="fa-solid fa-compact-disc"></i></div>
+            <ul class="nav-links">
+                <li><a href="home.html" class="nav-link"><i class="fas fa-home"></i></a></li>
+                <li><a href="music.html" class="nav-link"><i class="fas fa-music"></i></a></li>
+                <li><a href="users.html" class="nav-link"><i class="fas fa-users"></i></a></li>
+                <li><a href="heart.html" class="nav-link"><i class="fas fa-heart"></i></a></li>
+                <!-- <li><a href="#" class="nav-link active"><i class="fas fa-cog"></i></a></li> -->
+            </ul>
+            <div class="profile">
+               <a href="profile.html"><img src="./assets/profile-logo.jpg" alt="User Profile"></a>
+            </div>
+        </aside>
+
+        <main class="profile-content">
+            <header class="profile-header">
+                <img src="./assets/profile-logo.jpg" alt="User Profile" class="avatar">
+                <div class="info">
+                    <h1>Nithish </h1>
+                    <p class="bio">Music enthusiast | Curator of vibes | Telugu music lover</p>
+                    <div class="stats">
+                        <div class="stat-item">
+                            <div class="count">128</div>
+                            <div class="label">Followers</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="count">245</div>
+                            <div class="label">Following</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="count">12</div>
+                            <div class="label">Playlists</div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <section class="profile-section">
+                <h2 class="section-title">Recently Played</h2>
+                <div class="item-grid">
+                    <div class="item-card">
+                        <img src="./assets/sooseki.jpg" alt="Sooseki" class="artwork">
+                        <div class="card-info">
+                            <div class="title">Sooseki</div>
+                            <div class="artist">Shreya Ghoshal</div>
+                        </div>
+                    </div>
+                    <div class="item-card">
+                        <img src="./assets/Jailer.jpg" alt="Hukum" class="artwork">
+                        <div class="card-info">
+                            <div class="title">Hukum</div>
+                            <div class="artist">Anirudh Ravichander</div>
+                        </div>
+                    </div>
+                    <div class="item-card">
+                        <img src="./assets/kurchi.jpg" alt="Kurchi Madathapetti" class="artwork">
+                        <div class="card-info">
+                            <div class="title">Kurchi Madathapetti</div>
+                            <div class="artist">Thaman S</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="profile-section">
+                <h2 class="section-title">Public Playlists</h2>
+                <div class="item-grid">
+                    <div class="item-card">
+                        <img src="./assets/Tollywood.jpg" alt="Tollywood Pearls" class="artwork">
+                        <div class="card-info">
+                            <div class="title">Tollywood Pearls</div>
+                            <div class="artist">45 songs</div>
+                        </div>
+                    </div>
+                    <div class="item-card">
+                        <img src="./assets/romance.jpg" alt="Telugu Romance" class="artwork">
+                        <div class="card-info">
+                            <div class="title">Telugu Romance</div>
+                            <div class="artist">90 songs</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- GSAP Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Animate the header elements
+            gsap.from(".profile-header .avatar", { duration: 1, scale: 0.8, opacity: 0, ease: "power3.out" });
+            gsap.from(".profile-header .info > *", { duration: 1, x: -30, opacity: 0, stagger: 0.2, ease: "power3.out", delay: 0.3 });
+
+            // Staggered entrance for cards
+            gsap.from(".item-card", {
+                duration: 0.8,
+                opacity: 0,
+                y: 30,
+                stagger: 0.1,
+                ease: "power3.out",
+                delay: 0.5
+            });
+
+            // Interactive hover for all cards
+            const allCards = document.querySelectorAll('.item-card');
+            allCards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    gsap.to(card, { scale: 1.05, duration: 0.3, ease: 'power2.out' });
+                });
+                card.addEventListener('mouseleave', () => {
+                    gsap.to(card, { scale: 1, duration: 0.3, ease: 'power2.out' });
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users - Music Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <style>
+        :root {
+            --background-color: #f0f2f5;
+            --surface-color: #ffffff;
+            --primary-text-color: #0d1117;
+            --secondary-text-color: #6e7681;
+            --border-color: #d0d7de;
+            --accent-color: #2f363d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--primary-text-color);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .app-container {
+            width: 100%;
+            height: 100%;
+            max-width: 1400px;
+            max-height: 900px;
+            background-color: var(--surface-color);
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            display: grid;
+            grid-template-columns: 90px 1fr;
+            padding: 1.5rem;
+            gap: 1.5rem;
+        }
+
+        /* --- Sidebar Navigation --- */
+        .sidebar {
+            background-color: var(--surface-color);
+            padding: 1.5rem 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            z-index: 10;
+        }
+        
+        .sidebar .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            color: var(--accent-color);
+        }
+
+        .sidebar .nav-links {
+            list-style: none;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .sidebar .nav-links a {
+            color: var(--secondary-text-color);
+            text-decoration: none;
+            font-size: 1.4rem;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar .nav-links a.active,
+        .sidebar .nav-links a:hover {
+            background-color: var(--accent-color);
+            color: var(--surface-color);
+        }
+        
+        .sidebar .profile {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+        
+        .sidebar .profile img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* --- Users Content --- */
+        .users-content {
+            padding: 1rem;
+            overflow-y: auto;
+        }
+        
+        .users-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .users-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .users-content::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 4px;
+        }
+        
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        .user-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .user-card {
+            background-color: var(--surface-color);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .user-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .user-card .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 1rem;
+            border: 3px solid var(--background-color);
+        }
+
+        .user-card .name {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .user-card .role {
+            font-size: 0.9rem;
+            color: var(--secondary-text-color);
+            margin-bottom: 1rem;
+        }
+        
+        .user-card .follow-btn {
+            background-color: var(--accent-color);
+            color: var(--surface-color);
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            transition: background-color 0.2s ease;
+        }
+        
+        .user-card .follow-btn:hover {
+            background-color: var(--accent-color-light);
+        }
+
+        /* --- Media Queries for Responsive Design --- */
+
+       @media (max-width: 1024px) {
+            .app-container {
+                grid-template-columns: 80px 1fr;
+                padding: 1rem;
+                gap: 1rem;
+            }
+            .page-header h1 {
+                font-size: 2rem;
+            }
+            .user-grid {
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            }
+        }
+
+        /* For Mobile Phones */
+        @media (max-width: 768px) {
+            body {
+                overflow: auto;
+            }
+            .app-container {
+                display: block;
+                border-radius: 0;
+                padding: 1rem 1rem 70px 1rem; /* Added top/side padding */
+                max-height: none;
+                height: auto;
+            }
+            .sidebar {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 65px;
+                flex-direction: row;
+                justify-content: space-between; /* Adjusted for better spacing */
+                align-items: center;
+                border-radius: 0;
+                padding: 0 1rem;
+                box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+                z-index: 1000;
+            }
+            .sidebar .logo {
+                display: none;
+            }
+             .sidebar .profile {
+                display: block; /* Make profile visible */
+                width: 40px;
+                height: 40px;
+            }
+            .sidebar .nav-links {
+                flex-direction: row;
+                width: auto;
+                justify-content: center;
+                gap: 1rem;
+            }
+            .users-content {
+                padding: 1.5rem 0;
+            }
+            .user-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 1rem;
+            }
+        }
+        
+        /* For Small Mobile Phones */
+        @media (max-width: 480px) {
+            .page-header h1 {
+                font-size: 1.8rem;
+            }
+            .user-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .user-card {
+                padding: 1rem;
+            }
+            .user-card .avatar {
+                width: 80px;
+                height: 80px;
+            }
+            .user-card .name {
+                font-size: 1rem;
+            }
+             .sidebar .nav-links a {
+                font-size: 1.2rem;
+            }
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo"><i class="fa-solid fa-compact-disc"></i></div>
+            <ul class="nav-links">
+                <li><a href="home.html" class="nav-link"><i class="fas fa-home"></i></a></li>
+                <li><a href="music.html" class="nav-link"><i class="fas fa-music"></i></a></li>
+                <li><a href="#" class="nav-link active"><i class="fas fa-users"></i></a></li>
+                <li><a href="heart.html" class="nav-link"><i class="fas fa-heart"></i></a></li>
+                <!--    <li><a href="#" class="nav-link"><i class="fas fa-cog"></i></a></li> -->
+            </ul>
+            <div class="profile">
+                <a href="profile.html"><img src="./assets/profile-logo.jpg" alt="User Profile"></a>
+            </div>
+        </aside>
+
+        <main class="users-content">
+            <header class="page-header">
+                <h1>Artists & Curators</h1>
+            </header>
+
+            <section class="user-grid">
+                <div class="user-card">
+                    <img src="./assets/anirudh.jpg" alt="Anirudh Ravichander" class="avatar">
+                    <div class="name">Anirudh R.</div>
+                    <div class="role">Artist</div>
+                    <button class="follow-btn">Follow</button>
+                </div>
+                <div class="user-card">
+                    <img src="./assets/anurag.jpg" alt="Shreya Ghoshal" class="avatar">
+                    <div class="name">Anurag Kulkarni</div>
+                    <div class="role">Artist</div>
+                    <button class="follow-btn">Follow</button>
+                </div>
+                <div class="user-card">
+                    <img src="./assets/taman.jpg" alt="Sid Sriram" class="avatar">
+                    <div class="name">Thaman</div>
+                    <div class="role">Artist</div>
+                    <button class="follow-btn">Follow</button>
+                </div>
+                <div class="user-card">
+                    <img src="./assets/dsp.jpg" alt="Thaman S" class="avatar">
+                    <div class="name">Devi sri Prasad</div>
+                    <div class="role">Music Director / Singer</div>
+                    <button class="follow-btn">Follow</button>
+                </div>
+                <div class="user-card">
+                    <img src="./assets/mangli.jpg" alt="Telugu Tunes" class="avatar">
+                    <div class="name">Mangli</div>
+                    <div class="role">Singer</div>
+                    <button class="follow-btn">Follow</button>
+                </div>
+                 <div class="user-card">
+                    <img src="./assets/karhhik.jpg" alt="Karthik" class="avatar">
+                    <div class="name">Karthik</div>
+                    <div class="role">Artist</div>
+                    <button class="follow-btn">Follow</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+</body>
+</html>
