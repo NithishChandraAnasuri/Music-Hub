@@ -364,100 +364,100 @@
 
       /* --- Media Queries for Responsive Design --- */
 
-     /* For Tablets */
-        @media (max-width: 1024px) {
-            .app-container {
-                grid-template-columns: 80px 1fr;
-                gap: 1rem;
-                padding: 1rem;
-            }
-            .right-panel {
-                display: none;
-            }
-            .live-view-overlay h2 {
-                font-size: 1.8rem;
-            }
+      /* For Tablets */
+      @media (max-width: 1024px) {
+        .app-container {
+          grid-template-columns: 80px 1fr;
+          gap: 1rem;
+          padding: 1rem;
         }
+        .right-panel {
+          display: none;
+        }
+        .live-view-overlay h2 {
+          font-size: 1.8rem;
+        }
+      }
 
-        /* For Mobile Phones */
-        @media (max-width: 768px) {
-            body {
-                overflow: auto;
-            }
-            .app-container {
-                display: block;
-                border-radius: 0;
-                padding: 1rem 1rem 70px 1rem; /* Added top/side padding */
-                max-height: none;
-                height: auto;
-            }
-            .sidebar {
-                position: fixed;
-                bottom: 0;
-                left: 0;
-                width: 100%;
-                height: 65px;
-                flex-direction: row;
-                justify-content: space-between; /* Adjusted for better spacing */
-                align-items: center;
-                border-radius: 0;
-                padding: 0 1rem;
-                box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
-                z-index: 1000;
-            }
-            .sidebar .logo {
-                display: none;
-            }
-            .sidebar .profile {
-                display: block; /* Make profile visible */
-                width: 40px;
-                height: 40px;
-            }
-            .sidebar .nav-links {
-                flex-direction: row;
-                width: auto;
-                justify-content: center;
-                gap: 1rem;
-            }
-            .main-content {
-                padding: 0;
-                overflow: visible;
-            }
-            .right-panel {
-                padding: 1rem 0 0 0;
-                display: flex;
-            }
-            .playlist-card {
-                display: none;
-            }
-            .player-card {
-                width: 100%;
-            }
-            .live-view {
-                height: 250px;
-            }
+      /* For Mobile Phones */
+      @media (max-width: 768px) {
+        body {
+          overflow: auto;
         }
-        
-        /* For Small Mobile Phones */
-        @media (max-width: 480px) {
-            .live-view-overlay h2 {
-                font-size: 1.5rem;
-            }
-            .player-card .circular-progress {
-                width: 150px;
-                height: 150px;
-            }
-            .player-card .album-art-container {
-                width: 120px;
-                height: 120px;
-            }
-             .player-card #player-song-title {
-                font-size: 1rem;
-            }
-            .sidebar .nav-links a {
-                font-size: 1.2rem;
-            }
+        .app-container {
+          display: block;
+          border-radius: 0;
+          padding: 1rem 1rem 70px 1rem; /* Added top/side padding */
+          max-height: none;
+          height: auto;
         }
+        .sidebar {
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 65px;
+          flex-direction: row;
+          justify-content: space-between; /* Adjusted for better spacing */
+          align-items: center;
+          border-radius: 0;
+          padding: 0 1rem;
+          box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.05);
+          z-index: 1000;
+        }
+        .sidebar .logo {
+          display: none;
+        }
+        .sidebar .profile {
+          display: block; /* Make profile visible */
+          width: 40px;
+          height: 40px;
+        }
+        .sidebar .nav-links {
+          flex-direction: row;
+          width: auto;
+          justify-content: center;
+          gap: 1rem;
+        }
+        .main-content {
+          padding: 0;
+          overflow: visible;
+        }
+        .right-panel {
+          padding: 1rem 0 0 0;
+          display: flex;
+        }
+        .playlist-card {
+          display: none;
+        }
+        .player-card {
+          width: 100%;
+        }
+        .live-view {
+          height: 250px;
+        }
+      }
+
+      /* For Small Mobile Phones */
+      @media (max-width: 480px) {
+        .live-view-overlay h2 {
+          font-size: 1.5rem;
+        }
+        .player-card .circular-progress {
+          width: 150px;
+          height: 150px;
+        }
+        .player-card .album-art-container {
+          width: 120px;
+          height: 120px;
+        }
+        .player-card #player-song-title {
+          font-size: 1rem;
+        }
+        .sidebar .nav-links a {
+          font-size: 1.2rem;
+        }
+      }
     </style>
   </head>
   <body>
@@ -466,7 +466,9 @@
         <div class="logo"><i class="fa-solid fa-compact-disc"></i></div>
         <ul class="nav-links">
           <li>
-            <a href="home.html" class="nav-link active"><i class="fas fa-home"></i></a>
+            <a href="home.html" class="nav-link active"
+              ><i class="fas fa-home"></i
+            ></a>
           </li>
           <li>
             <a href="music.html" class="nav-link"
@@ -490,9 +492,8 @@
           </li> -->
         </ul>
         <div class="profile">
-         <a href="profile.html"><img
-            src="./assets/profile-logo.jpg"
-            alt="User Profile"
+          <a href="profile.html"
+            ><img src="./assets/profile-logo.jpg" alt="User Profile"
           /></a>
         </div>
       </aside>
@@ -513,7 +514,7 @@
           <h3>Tollywood Hits</h3>
           <div id="song-list">
             <div class="song-item" data-index="0">
-              <img src="./assets/ramulo.jpg" alt="Amma" class="artwork" />
+              <img src="./assets/Guntur Karaam re-release special(wallpapers).jpg" alt="Amma" class="artwork" />
               <div class="info">
                 <div class="title">Amma</div>
                 <div class="artist">Vishal Mishra</div>
@@ -583,7 +584,11 @@
             </div>
 
             <div class="song-item" data-index="6">
-              <img src="./assets/Guntur Karaam re-release special(wallpapers).jpg" alt="Dum Masala" class="artwork" />
+              <img
+                src="./assets/Guntur Karaam re-release special(wallpapers).jpg"
+                alt="Dum Masala"
+                class="artwork"
+              />
               <div class="info">
                 <div class="title">Dum Masala</div>
                 <div class="artist">Sanjith Hegde, S S Thaman</div>
@@ -650,6 +655,26 @@
                 <div class="artist">Shreya Ghoshal</div>
               </div>
               <div class="duration">3:45</div>
+            </div>
+
+            <div class="song-item" data-index="12">
+              <img src="./assets/Gaami (2024).jpeg" alt="Gamyaanne" class="artwork" />
+              <div class="info">
+                <div class="title">Gamyane</div>
+                <div class="artist">
+                  Anurag Kulkarni, Sweekar Agasthi, Sugunamma
+                </div>
+              </div>
+              <div class="duration">4:46</div>
+            </div>
+
+            <div class="song-item" data-index="13">
+              <img src="./assets/Gaami (2024).jpeg" alt="Sooseki" class="artwork" />
+              <div class="info">
+                <div class="title">Shivam - The Sprit Of Gaami</div>
+                <div class="artist">Shankar Mahadevan</div>
+              </div>
+              <div class="duration">3:59</div>
             </div>
           </div>
         </div>
@@ -786,6 +811,16 @@
               title: "Sooseki",
               artist: "Shreya Ghoshal",
               url: "./assets/Sooseki.mp3",
+            },
+            {
+              title: "Gamyane",
+              artist: "Anurag Kulkarni, Sweekar Agasthi, Sugunamma",
+              url: "./assets/Gamyaanne.mp3",
+            },
+            {
+              title: "Shivam - The Sprit Of Gaami",
+              artist: "Shankar Mahadevan",
+              url: "./assets/Shivam - The Sprit Of Gaami.mp3",
             },
           ],
           currentSongIndex: 0,
